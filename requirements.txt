@@ -1,0 +1,6 @@
+faster-whisper
+openai-whisper
+sounddevice
+numpy
+webrtcvad
+requests

@@ -1,0 +1,23 @@
+[Unit]
+Description=Nexus Voice Daemon v2.0
+After=default.target pulseaudio.service
+Wants=pulseaudio.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/forge-of-change/.local/bin/nexus-voice-daemon.py
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:1
+Environment=PULSE_SERVER=unix:/run/user/%U/pulse/native
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+
+# GPU access for Whisper
+Environment=CUDA_VISIBLE_DEVICES=0
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
