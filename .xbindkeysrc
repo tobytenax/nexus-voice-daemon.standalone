@@ -1,0 +1,7 @@
+# Smart Voice: TTS / Push-to-talk STT (Forward Button)
+"bash /home/forge-of-change/.local/bin/smart_voice.sh"
+  b:9
+
+# Cancel: kill all speech/recording and reset state (Back Button)
+"killall -9 piper aplay arecord 2>/dev/null; rm -f /tmp/smart_voice_ptt.pid; notify-send 'Voice Mode' 'Cancelled.' -t 1500"
+  b:8

@@ -1,0 +1,13 @@
+[Unit]
+Description=Whisper Worker — persistent faster-whisper daemon for smart_voice
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/forge-of-change/.local/bin/whisper_worker.py
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:1
+
+[Install]
+WantedBy=default.target
