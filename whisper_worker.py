@@ -52,10 +52,12 @@ def load_and_normalize(audio_path):
             print("[WhisperWorker] Audio too quiet — skipping (silence/noise)", flush=True)
             return None
 
-        # Normalize to -3dB (0.707 of full scale) so Whisper gets consistent input
-        peak = np.max(np.abs(samples))
+        # Normalize to -3dB using 95th-percentile peak (ignores chirp transients)
+        peak = np.percentile(np.abs(samples), 95)
         if peak > 0:
             samples = samples * (0.707 * 32767.0 / peak)
+            # Hard-clip to prevent overflow after aggressive normalization
+            samples = np.clip(samples, -32767, 32767)
 
         return samples / 32768.0   # Whisper expects float32 in [-1, 1]
 

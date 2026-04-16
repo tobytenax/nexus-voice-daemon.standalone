@@ -10,8 +10,8 @@ ONNX=/home/forge-of-change/piper_voices/en_GB-semaine-medium.onnx
 TMPWAV=/tmp/smart_voice_speak.wav
 TMPRAW=/tmp/smart_voice_ptt.wav
 PIDFILE=/tmp/smart_voice_ptt.pid
-SOUND_START=/usr/share/sounds/sound-icons/pisk-up.wav
-SOUND_STOP=/usr/share/sounds/sound-icons/pisk-down.wav
+SOUND_START=/tmp/pisk-up-quiet.wav
+SOUND_STOP=/tmp/pisk-down-quiet.wav
 
 # ── 1. Check for intentional text selection (≥3 words) ───────────────────────
 SELECTED_TEXT=$(xclip -o -selection primary 2>/dev/null)
@@ -93,14 +93,6 @@ if echo "$WIN_CLASS" | grep -qE "$TEXT_INPUT_PATTERN"; then
         rm -f /tmp/whisper_result
 
         if [ -n "$DICTATED_TEXT" ]; then
-            # Restore focus to the window that was active at recording-start
-            WINFILE=/tmp/smart_voice_target_win
-            if [ -f "$WINFILE" ]; then
-                TARGET_WIN=$(cat "$WINFILE")
-                rm -f "$WINFILE"
-                xdotool windowfocus --sync "$TARGET_WIN" 2>/dev/null
-                sleep 0.1
-            fi
             notify-send "Voice Mode" "✓ $DICTATED_TEXT" -t 4000
             xdotool type --clearmodifiers --delay 2 "$DICTATED_TEXT"
         else
